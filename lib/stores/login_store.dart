@@ -9,6 +9,10 @@ abstract class _LoginStore with Store {
     autorun((_) {
       print(email);
       print(password);
+      print(isFormValid);
+      print(isEmail);
+      print(isPassword);
+      print(isFormValidated);
     });
   }
 
@@ -21,6 +25,45 @@ abstract class _LoginStore with Store {
   @observable
   String password = "";
 
+  @observable
+  bool passwordVisible = true;
+
+  @observable
+  bool loading = false;
+
+  @observable
+  bool loggedIn = false;
+
+  @action
+  Future<void> login() async {
+    loading = true;
+    // Processes
+
+    await Future.delayed(Duration(seconds: 5));
+
+    loading = false;
+    loggedIn = true;
+  }
+
+  @action
+  void togglePassowrdVisibility() => passwordVisible = !passwordVisible;
+
   @action
   void setPassword(String value) => password = value;
+
+  @computed
+  bool get isFormValid => email.length > 6 && password.length > 6;
+
+  @computed
+  bool get isEmail => email.length > 6;
+
+  @computed
+  bool get isPassword => password.length > 6;
+
+  @computed
+  bool get isFormValidated => isEmail && isPassword;
+
+  @computed
+  Function get loginPressed =>
+      (isEmail && isPassword && !loading) ? login : null;
 }
