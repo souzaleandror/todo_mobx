@@ -1,32 +1,31 @@
 import 'package:mobx/mobx.dart';
+import 'package:todomobx/stores/todo_store.dart';
 
 part 'list_store.g.dart';
 
 class ListStore = _ListStore with _$ListStore;
 
 abstract class _ListStore with Store {
-  _ListStore() {
-    autorun((_) {
-      print(isFormValid);
-    });
-  }
-
   @observable
-  String newTodoTile = "";
-
-  @observable
-  List<String> todoList = [];
-
-  @computed
-  void setNewTodoTile(String newTodo) => newTodo = newTodo;
+  String newTodoTitle = "";
 
   @action
-  void addTodo() {
-    //todoList.add(newTodoTile);
-    todoList = List.from(todoList..add(newTodoTile));
-    print(todoList);
-  }
+  void setNetTodoTitle(String value) => newTodoTitle = value;
 
   @computed
-  bool get isFormValid => newTodoTile.isNotEmpty;
+  bool get isFormValid => newTodoTitle.isNotEmpty;
+
+  //@observable
+  //List<String> todoList = [];
+  ObservableList<TodoStore> todoList = ObservableList<TodoStore>();
+
+  @action
+  void addTodoList() {
+    //todoList.add(newTodoTitle);
+    //todoList = List.from(todoList..add(newTodoTitle));
+    //todoList.add(TodoStore(newTodoTitle));
+    todoList.insert(0, TodoStore(newTodoTitle));
+    print(todoList);
+    newTodoTitle = "";
+  }
 }

@@ -39,10 +39,11 @@ abstract class _LoginStore with Store {
     loading = true;
     // Processes
 
-    await Future.delayed(Duration(seconds: 5));
-
+    await Future.delayed(Duration(seconds: 2));
     loading = false;
     loggedIn = true;
+    email = "";
+    password = "";
   }
 
   @action
@@ -66,4 +67,9 @@ abstract class _LoginStore with Store {
   @computed
   Function get loginPressed =>
       (isEmail && isPassword && !loading) ? login : null;
+
+  @action
+  void logout() {
+    loggedIn = false;
+  }
 }
